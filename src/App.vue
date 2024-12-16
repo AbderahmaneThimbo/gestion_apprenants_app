@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -19,19 +15,28 @@
           <ul class="navbar-nav ms-auto">
 
             <li class="nav-item me-3">
-              <RouterLink class="nav-link fw-bold" to="/apprenants">Gestion des apprenants</RouterLink>
-            </li>
-            <li class="nav-item me-3">
-              <RouterLink class="nav-link fw-bold" to="/modules">Gestion des modules</RouterLink>
-            </li>
-            <li class="nav-item me-3">
-              <RouterLink class="nav-link fw-bold" to="/inscription">Gestion des inscriptions</RouterLink>
+              <RouterLink class="nav-link" to="/apprenants">
+                <i class="fas fa-users me-2"></i> Gestion des apprenants
+              </RouterLink>
             </li>
 
             <li class="nav-item me-3">
-              <RouterLink class="nav-link fw-bold" to="/payment">Gestion des paiements</RouterLink>
+              <RouterLink class="nav-link" to="/modules">
+                <i class="fas fa-cogs me-2"></i> Gestion des modules
+              </RouterLink>
             </li>
 
+            <li class="nav-item me-3">
+              <RouterLink class="nav-link" to="/inscription">
+                <i class="fas fa-edit me-2"></i> Gestion des inscriptions
+              </RouterLink>
+            </li>
+
+            <li class="nav-item me-3">
+              <RouterLink class="nav-link" to="/payment">
+                <i class="fas fa-credit-card me-2"></i> Gestion des paiements
+              </RouterLink>
+            </li>
           </ul>
         </div>
       </div>
@@ -48,16 +53,27 @@ img {
   width: 70px;
 }
 
-.form-select {
-  width: 68px;
-}
 
-.navbar-nav .form-select {
-  margin-left: auto;
-}
-
-.navbar-nav .nav-item {
+.navbar-nav .nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
   display: flex;
   align-items: center;
+  transition: color 0.3s ease;
+}
+
+
+.navbar-nav .nav-link:hover {
+  color: #1abc9c;
+}
+
+.navbar-nav .nav-link i {
+  font-size: 18px;
+}
+
+
+.navbar-nav .nav-item {
+  margin-right: 20px;
 }
 </style>
