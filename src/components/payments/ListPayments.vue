@@ -10,7 +10,7 @@
             </router-link>
         </div>
 
-        <table class="table">
+        <table class="tableau">
             <thead>
                 <tr>
                     <th>Date de Paiement</th>
@@ -27,11 +27,11 @@
                 <tr v-for="payment in store.payments" :key="payment.id">
                     <td>{{ formatDate(payment.payment_date) }}</td>
                     <td>{{ payment.amount }}</td>
-                    <td>{{ payment.paid_amount}}</td>
+                    <td>{{ payment.paid_amount }}</td>
                     <td>{{ payment.payer }}</td>
                     <td>{{ payment.payer_number }}</td>
                     <td>{{ payment.student_name }}</td>
-                    <td>{{ payment.student_name }}</td>
+                    <td>{{ payment.module_name }}</td>
                     <td class="actions">
                         <button class="action-btn" @click="showModal(payment.id)">
                             <i class="fas fa-eye"></i>
@@ -48,32 +48,41 @@
             <div class="modal-content" @click.stop>
                 <span class="close" @click="closeModal">&times;</span>
                 <h3>Détails du Paiement</h3>
-                <p v-if="selected">
-                    <strong>Apprenant :</strong> {{ selected?.student_name }}
-                </p>
-                <p v-if="selected">
-                    <strong>Module :</strong> {{ selected?.module_name }}
-                </p>
-                <p v-if="selected">
-                    <strong>Date de Paiement :</strong> {{ formatDate(selected.payment_date)
-                    }}
-                </p>
-                <p v-if="selected">
-                    <strong>Date d'Inscription :</strong> {{ formatDate(selected.registration_date)
-                    }}
-                </p>
-                <p v-if="selected">
-                    <strong>Payeur :</strong> {{ selected.payer }}
-                </p>
-                <p v-if="selected">
-                    <strong>Numéro de téléphone :</strong> {{ selected.payer_number }}
-                </p>
-                <p v-if="selected">
-                    <strong>Montant Payé :</strong> {{ selected.amount }}
-                </p>
-                <p v-if="selected">
-                    <strong>Montant Restant :</strong> {{ selected.paid_amount }}
-                </p>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Apprenant</label>
+                    <p class="form-control">{{ selectedPayment.student_name }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Module</label>
+                    <p class="form-control">{{ selectedPayment.module_name }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Date de Paiement</label>
+                    <p class="form-control">{{ formatDate(selectedPayment.payment_date)
+                    }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Date d'Inscription </label>
+                    <p class="form-control">{{ formatDate(selectedPayment.registration_date)
+                    }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Payeur</label>
+                    <p class="form-control">{{ selectedPayment.payer
+                    }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Numéro de téléphone</label>
+                    <p class="form-control">{{ selectedPayment.payer_number }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Montant Payé</label>
+                    <p class="form-control">{{ selectedPayment.amount }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="app" class="form-label">Montant Restant</label>
+                    <p class="form-control">{{ selectedPayment.paid_amount }}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -91,7 +100,7 @@ const store = usePaymentStore();
 const toast = useToast();
 const isLoading = ref(false);
 const isModalVisible = ref(false);
-const selected = ref(null);
+const selectedPayment = ref(null);
 
 onMounted(async () => {
     isLoading.value = true;
@@ -104,9 +113,9 @@ onMounted(async () => {
 
 const showModal = async (id) => {
     isLoading.value = false;
-    isModalVisible.value = true
     try {
-        selected.value = await store.getPaymentById(id);
+        selectedPayment.value = await store.getPaymentById(id);
+        isModalVisible.value = true
     } catch (error) {
         toast.error(`${error}`);
     } finally {
@@ -160,7 +169,7 @@ const formatDate = (date) => {
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 
 h2 {
@@ -168,7 +177,7 @@ h2 {
     color: #4a4a4a;
 }
 
-.create{
+.create {
     color: white;
     border-radius: 5px;
     padding: 10px 15px;
@@ -181,7 +190,7 @@ h2 {
     margin-right: 8px;
 }
 
-.table {
+.tableau {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
@@ -191,41 +200,42 @@ h2 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.table th,
-.table td {
+.tableau th,
+.tableau td {
     padding: 15px 20px;
     text-align: left;
 }
 
-.table th {
-    background-color: #f9f9f9;
-    color: #666;
+.tableau th {
+    background-color: #cccccc;
+    color: #000;
     font-weight: bold;
 }
 
-.table td {
+.tableau td {
     border-bottom: 1px solid #e3e3e3;
     color: #333;
 }
 
-.table tbody tr:hover {
+.tableau tbody tr:hover {
     background-color: #f1f1f1;
 }
 
 .actions {
     text-align: center;
+    display: flex;
 }
 
 .action-btn {
     background-color: transparent;
     border: none;
-    margin-right: 10px;
+    margin-right: 5px;
     cursor: pointer;
 }
 
 .action-btn i {
     color: #6c757d;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .modal {
